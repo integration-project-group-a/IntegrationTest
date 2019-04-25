@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="btw-nummer">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="firstname">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="birthdate">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="Message">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="header"/>
+				<xs:element ref="datastructure"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="extraField">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="description" type="xs:string"/>
+	<xs:element name="isActive">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="version">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="lastname">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="sender">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="name">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="firstname"/>
+				<xs:element ref="lastname"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="header">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="MessageType"/>
+				<xs:element ref="description"/>
+				<xs:element ref="sender"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="datastructure">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="UUID"/>
+				<xs:element ref="name"/>
+				<xs:element ref="email"/>
+				<xs:element ref="timestamp"/>
+				<xs:element ref="version"/>
+				<xs:element ref="isActive"/>
+				<xs:element ref="banned"/>
+				<xs:element ref="birthdate"/>
+				<xs:element ref="btw-nummer"/>
+				<xs:element ref="gsm-nummer"/>
+				<xs:element ref="GDPR"/>
+				<xs:element ref="extraField"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="banned">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="gsm-nummer">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="UUID">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="MessageType" type="xs:string"/>
+	<xs:element name="email">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="GDPR">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="timestamp">
+		<xs:complexType/>
+	</xs:element>
+</xs:schema>

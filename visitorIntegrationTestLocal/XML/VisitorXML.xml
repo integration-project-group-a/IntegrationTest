@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New XML document created with EditiX XML Editor (http://www.editix.com) at Wed Apr 10 14:13:46 CEST 2019 -->
+
+<Message>
+	<header>
+		<!-- type of message -->
+		<MessageType>Visitor</MessageType>
+		<!--What your Message does -->
+		<description>Creation of a visitor</description>
+		<!--Who sent it-->
+		<!--(fronted, crm, facturatie, kassa, monitor, planning, uuid) -->
+		<sender></sender> <!-- kassa, crm, front-end -->
+	</header>
+	<datastructure>
+		<!-- required fields = UUID name + email & hashing. -->
+		<UUID/> <!-- id of the user -->
+		<name>
+			<firstname/>
+			<lastname/>
+		</name> <!-- kassa  , front-end  -->
+		<email/>
+		<timestamp/>
+		<version/>
+		<isActive/>
+		<banned/>
+		<!-- Not required fields -->
+		<birthdate/>
+		<btw-nummer/>
+		<gsm-nummer/>
+		<GDPR/>
+		<extraField/>
+	</datastructure>
+</Message>
+
+
