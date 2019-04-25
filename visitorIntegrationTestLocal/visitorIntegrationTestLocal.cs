@@ -21,6 +21,7 @@ namespace visitorIntegrationTest
 
             XmlDocument doc2 = new XmlDocument();
             doc2.Load("../../../XML/VisitorV2Invalid.xml");
+            
 
             doc2.Schemas.Add(null, "../../../XSD/VisitorV2.xsd");
 

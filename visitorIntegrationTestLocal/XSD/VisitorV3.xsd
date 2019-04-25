@@ -1,0 +1,65 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="messageType" type="xs:string"/>
+  <xs:element name="description" type="xs:string"/>
+  <xs:element name="sender" type="xs:string"/>
+  <xs:element name="firstname" type="xs:string"/>
+  <xs:element name="lastname" type="xs:string"/>
+  <xs:element name="UUID" type="xs:string"/>
+  <xs:element name="name">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="firstname"/>
+        <xs:element ref="lastname"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="email" type="xs:string"/>
+  <xs:element name="GDPR" type="xs:boolean"/>
+  <xs:element name="timestamp" type="xs:integer"/>
+  <xs:element name="version" type="xs:integer"/>
+  <xs:element name="isActive" type="xs:boolean"/>
+  <xs:element name="banned" type="xs:boolean"/>
+  <xs:element name="geboortedatum" type="xs:date"/>
+  <xs:element name="btw-nummer" type="xs:string"/>
+  <xs:element name="gsm-nummer" type="xs:string"/>
+  <xs:element name="extraField" type="xs:string"/>
+  <xs:element name="header">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="messageType">
+        </xs:element>
+        <xs:element ref="description">
+        </xs:element>
+        <xs:element ref="sender">
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="datastructure">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="UUID"/>
+        <xs:element ref="name"/>
+        <xs:element ref="email"/>
+        <xs:element ref="GDPR"/>
+        <xs:element ref="timestamp"/>
+        <xs:element ref="version"/>
+        <xs:element ref="isActive"/>
+        <xs:element ref="banned"/>
+        <xs:element ref="geboortedatum"/>
+        <xs:element ref="btw-nummer"/>
+        <xs:element ref="gsm-nummer"/>
+        <xs:element ref="extraField"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="message">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="header">
+        </xs:element>
+        <xs:element ref="datastructure"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
