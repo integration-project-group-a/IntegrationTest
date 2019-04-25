@@ -33,13 +33,14 @@ class VisitorIntegrationTest
             {
                 Console.WriteLine("Received message");
                 XmlDocument doc = new XmlDocument();
-                doc.LoadXml(Encoding.UTF32.GetString(ea.Body));
-                recivedMessage = Encoding.UTF32.GetString(ea.Body);
+                doc.LoadXml(Encoding.UTF8.GetString(ea.Body));
+                recivedMessage = Encoding.UTF8.GetString(ea.Body);
 
                 doc.Schemas.Add(null, "../../../XSD/VisitorV2.xsd");
 
-                doc.Validate(ValidationCallBack);
 
+                doc.Validate(ValidationCallBack);
+                
                 
             };
             channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
@@ -52,9 +53,13 @@ class VisitorIntegrationTest
     private static void ValidationCallBack(object sender, ValidationEventArgs args)
     {
         if (args.Severity == XmlSeverityType.Warning)
+        {
             Console.WriteLine("\tWarning: Matching schema not found.  No validation occurred." + args.Message);
+        }
         else
+        {
             Console.WriteLine("\tValidation error: " + args.Message);
+        }
 
         HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://10.3.56.26:9200/visitortest/invalidxml"); //url
         httpWebRequest.ContentType = "application/json"; //ContentType
@@ -64,7 +69,6 @@ class VisitorIntegrationTest
         using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
         {
             streamWriter.Write("{\"message\": \""+ recivedMessage.Replace("\"", "'") + "\"}");
-            Console.WriteLine("{\"message\": \"" + recivedMessage.Replace("\"","'") + "\"}");
             streamWriter.Flush();
             streamWriter.Close();
         }
