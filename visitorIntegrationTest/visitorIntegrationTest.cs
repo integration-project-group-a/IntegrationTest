@@ -9,70 +9,82 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 
-class VisitorIntegrationTest
+namespace visitorIntegrationTest
 {
-    private static String recivedMessage;
-
-
-
-    public static void Main()
+    class VisitorIntegrationTest
     {
-        var factory = new ConnectionFactory() { HostName = "10.3.56.27", UserName = "manager", Password = "ehb" };
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
+        private static String recivedMessage;
+        public static bool testValidated;
+
+        public static void Main()
         {
-            channel.ExchangeDeclare(exchange: "logs", type: "fanout");
-
-            var queueName = channel.QueueDeclare().QueueName;
-            channel.QueueBind(queue: queueName, exchange: "logs", routingKey: "");
-
-            Console.WriteLine("Waiting for Tests.");
-
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
+            
+            var factory = new ConnectionFactory() { HostName = "10.3.56.27", UserName = "manager", Password = "ehb" };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
             {
-                Console.WriteLine("Received message");
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(Encoding.UTF8.GetString(ea.Body));
-                recivedMessage = Encoding.UTF8.GetString(ea.Body);
+                channel.ExchangeDeclare(exchange: "logs", type: "fanout");
 
-                doc.Schemas.Add(null, "../../../XSD/VisitorV2.xsd");
+                var queueName = channel.QueueDeclare().QueueName;
+                channel.QueueBind(queue: queueName, exchange: "logs", routingKey: "");
+
+                Console.WriteLine("Waiting for Tests.");
+
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
+                {
+                    Console.WriteLine("Received message");
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(Encoding.UTF8.GetString(ea.Body));
+                    recivedMessage = Encoding.UTF8.GetString(ea.Body);
+
+                    doc.Schemas.Add(null, "../../../XSD/VisitorV3.xsd");
+
+                    testValidated = true;
+                    doc.Validate(ValidationCallBack);
+                    if (testValidated)
+                    {
+                        TestHelper.AddSuccesMessage();
+                    }
+                    else
+                    {
+                        TestHelper.AddFaildMessage(Encoding.UTF8.GetString(ea.Body));
+                    }
+                    Console.WriteLine(TestHelper.GiveStats());
+
+                };
+                channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+                Console.ReadLine();
+            }
 
 
-                doc.Validate(ValidationCallBack);
-                
-                
-            };
-            channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-            Console.ReadLine();
+            Console.ReadKey();
         }
-      
-
-        Console.ReadKey();
-    }
-    private static void ValidationCallBack(object sender, ValidationEventArgs args)
-    {
-        if (args.Severity == XmlSeverityType.Warning)
+        private static void ValidationCallBack(object sender, ValidationEventArgs args)
         {
-            Console.WriteLine("\tWarning: Matching schema not found.  No validation occurred." + args.Message);
-        }
-        else
-        {
-            Console.WriteLine("\tValidation error: " + args.Message);
-        }
+            testValidated = false;
+            if (args.Severity == XmlSeverityType.Warning)
+            {
+                Console.WriteLine("\tWarning: Matching schema not found.  No validation occurred." + args.Message);
+            }
+            else
+            {
+                Console.WriteLine("\tValidation error: " + args.Message);
+            }
 
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://10.3.56.26:9200/visitortest/invalidxml"); //url
-        httpWebRequest.ContentType = "application/json"; //ContentType
-        httpWebRequest.Method = "POST"; //Methode
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://10.3.56.26:9200/visitortest/invalidxml"); //url
+            httpWebRequest.ContentType = "application/json"; //ContentType
+            httpWebRequest.Method = "POST"; //Methode
 
-        //body
-        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-        {
-            streamWriter.Write("{\"message\": \""+ recivedMessage.Replace("\"", "'") + "\"}");
-            streamWriter.Flush();
-            streamWriter.Close();
+            //body
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWriter.Write("{\"message\": \"" + recivedMessage.Replace("\"", "'") + "\"}");
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            httpWebRequest.GetResponse(); //sending request
         }
-
-        httpWebRequest.GetResponse(); //sending request
     }
 }

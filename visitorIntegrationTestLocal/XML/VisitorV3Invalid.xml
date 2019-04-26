@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message>
+	<header>
+		<messageType>Visitor</messageType>
+		<description>Creation of a visitor</description>
+		<sender>front-end</sender><!-- front-end, crm, facturatie, kassa, control-room, planning -->
+	</header>
+	<datastructure>
+		<UUID>x2de0z0d</UUID>
+		<name>
+			<firstname>Anthe</firstname>
+			<lastname>Boets</lastname>
+		</name>
+		<email>anthe.boets@student.ehb.be</email>
+		<GDPR>true</GDPR>
+		<timestamp>1555934040</timestamp>
+		<version>1</version>
+		<isActive>true</isActive>
+		<banned>false</banned>
+		<!-- Not required fields -->
+		<geboortedatum>1999-04-30</geboortedatum>
+		<btw-nummer>BE15656464654</btw-nummer>
+		<gsm-nummer>015313164165468</gsm-nummer>
+		<extraField></extraField>
+    <invalidField>
+      invalidField
+    </invalidField>
+	</datastructure>
+</message>

@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace visitorIntegrationTest
+namespace visitorIntegrationTestLocal
 {
     class VisitorIntegrationTestLocal
     {

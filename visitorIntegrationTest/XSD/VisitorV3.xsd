@@ -19,7 +19,7 @@
   <xs:element name="version" type="xs:integer"/>
   <xs:element name="isActive" type="xs:boolean"/>
   <xs:element name="banned" type="xs:boolean"/>
-  <xs:element name="geboortedatum" type="xs:dateTime"/>
+  <xs:element name="geboortedatum" type="xs:date"/>
   <xs:element name="btw-nummer" type="xs:string"/>
   <xs:element name="gsm-nummer" type="xs:string"/>
   <xs:element name="extraField" type="xs:string"/>
